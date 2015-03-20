@@ -1,6 +1,6 @@
 function LLH = BnLLH(Bstart,Rstart,c,r,noise,remem)
 %BNLLH Calculate negative log-likelihood associated with string of behaviors and
-%outcomes.
+%outcomes using the betasort algorithm.
 %   Note: A penalty is applied based on the expected rate of reward. This
 %   is done because otherwise the interaction between rewards and 
 %   subsequent behavior can in some cases favor parameters that
