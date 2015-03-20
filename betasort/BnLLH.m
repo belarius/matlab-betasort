@@ -26,7 +26,7 @@ else
 		[B,R] = Bupdate(B,R,c(t,1),c(t,2),r(t),remem);
 		temp(t) = log(p);
 	end
-	LLH = LLH - log(binopdf(round(sum(e_r)),length(r),mean(r)));
+	LLH = LLH - log(binomial_pdf(round(sum(e_r)),length(r),mean(r)));
 end
 
 end
