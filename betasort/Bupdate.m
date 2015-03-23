@@ -26,8 +26,8 @@ else % Othwerwise...
 	% Decrease reward rate for trial stimuli
 	R([ch;nc],2) = R([ch;nc],2)+1;
 	% Move trial stimuli positions apart
-	B(ch,:) = B(ch,:) + [0 1];
-	B(nc,:) = B(nc,:) + [1 0];
+	B(ch,2) = B(ch,2) + 1; 
+	B(nc,1) = B(nc,1) + 1;
 	% Shift all implicit stimuli relative to the upper and lower boundaries
 	% set by the expected values of the trial stimuli.
 	nonc = setxor((1:size(B,1))',[ch;nc]);
@@ -41,10 +41,10 @@ else % Othwerwise...
 			B(j,:) = B(j,:) + [V(j) 1-V(j)];
 		elseif V(j) < top_post
 			% Implicit stimuli below the trial stimuli are shifted down
-			B(j,:) = B(j,:) + [0 1];
+			B(j,2) = B(j,2) + 1;
 		elseif V(j) > bot_post
 			% Implicit stimuli above the trial stimuli are shifted up
-			B(j,:) = B(j,:) + [1 0];
+			B(j,1) = B(j,1) + 1;
 		end
 	end
 end
@@ -53,3 +53,4 @@ Rout = R;
 Bout = B;
 
 end
+
