@@ -1,4 +1,4 @@
-function LLH = betaQ_LLH(Bstart,Rstart,c,r,noise,remem)
+function LLH = betaQ_LLH(ULstart,RNstart,c,r,noise,remem)
 %BETAQ_LLH Calculate negative log-likelihood associated with string of behaviors and
 %outcomes using the betaQ algorithm.
 %   Note: A penalty is applied based on the expected rate of reward. This
@@ -11,20 +11,19 @@ if noise < 0 || noise > 1 || remem < 0 || remem > 1
 	LLH = -length(r).*log(0.0001);
 else
 	e_r = zeros(length(r),1);
-	B = Bstart;
-	R = Rstart;
+	UL = ULstart;
+	RN = RNstart;
 	LLH = 0;
-	temp = [];
 	for t = 1:length(r)
-		p = Bchoose2p(B,c(t,1),c(t,2),noise);
+		p = betasort_choose_prob(UL,c(t,1),c(t,2),noise);
 		if c(t,1) < c(t,2)
 			e_r(t) = p;
 		else
 			e_r(t) = 1-p;
 		end
 		LLH = LLH - log(p);
-		[B,R] = BQupdate(B,R,c(t,1),c(t,2),r(t),remem);
-		temp(t) = log(p);
+		RN = betaQ_RN_update(RN,c(t,1),c(t,2),r(t),remem);
+		UL = betaQ_UL_update(UL,RN,c(t,1),c(t,2),r(t),remem);
 	end
 	LLH = LLH - log(binomial_pdf(round(sum(e_r)),length(r),mean(r)));
 end
