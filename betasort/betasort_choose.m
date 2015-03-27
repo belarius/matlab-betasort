@@ -1,5 +1,5 @@
-function c = Bchoose(B,actions,noise,num)
-%BCHOOSE Choice from N alternative data using betasort
+function c = betasort_choose(B,actions,noise,num)
+%BETASORT_CHOOSE Choice from N alternative data using betasort
 %   Detailed explanation goes here
 
 if nargin < 4

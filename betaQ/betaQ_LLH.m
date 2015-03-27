@@ -1,5 +1,5 @@
-function LLH = BQnLLH(Bstart,Rstart,c,r,noise,remem)
-%BQNLLH Calculate negative log-likelihood associated with string of behaviors and
+function LLH = betaQ_LLH(Bstart,Rstart,c,r,noise,remem)
+%BETAQ_LLH Calculate negative log-likelihood associated with string of behaviors and
 %outcomes using the betaQ algorithm.
 %   Note: A penalty is applied based on the expected rate of reward. This
 %   is done because otherwise the interaction between rewards and 
@@ -30,3 +30,4 @@ else
 end
 
 end
+
