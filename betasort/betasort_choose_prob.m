@@ -1,19 +1,24 @@
 function p = betasort_choose_prob(UL,ch,nc,noise)
-%BETASORT_CHOOSE_PROB Probability in a two alternative choice from N alternative data using betasort
-%   Detailed explanation goes here
+%BETASORT_CHOOSE_PROB Probability of choosing ch from N alternative data using betasort
+%   N = length(ch) + length(nc)
 
-if isnan(UL(ch,1))
-	UL(ch,:) = 0;
+all = [ch(:);nc(:)];
+
+UL(isnan(UL(all,1)),:) = 0;
+
+fun = @(x,v,UL) (...
+	beta_pdf(x,v(1)+1,v(2)+1).*local_cdf_stack(x,UL) ...
+	);
+
+p = integral(@(x)fun(x,[UL(ch,1) UL(ch,2)],UL(nc,:)),0,1);
+
+p = (1-noise).*p + noise.*(1./length(all));
+
 end
 
-if isnan(UL(nc,1))
-	UL(nc,:) = 0;
+function p = local_cdf_stack(x,UL)
+	p = 1;
+	for i = 1:size(UL,1)
+		p = p.*beta_cdf(x,UL(i,1)+1,UL(i,2)+1);
+	end
 end
-
-fun = @(x,v) beta_pdf(x,v(1)+1,v(2)+1).*beta_cdf(x,v(3)+1,v(4)+1);
-p = integral(@(x)fun(x,[UL(ch,1) UL(ch,2) UL(nc,1) UL(nc,2)]),0,1);
-
-p = (1-noise).*p + noise.*(0.5);
-
-end
-
