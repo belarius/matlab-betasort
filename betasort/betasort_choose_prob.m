@@ -4,13 +4,17 @@ function p = betasort_choose_prob(UL,ch,nc,noise)
 
 all = [ch(:);nc(:)];
 
-UL(isnan(UL(all,1)),:) = 0;
+UL(isnan(UL(:,1)),:) = 0;
 
 fun = @(x,v,UL) (...
 	beta_pdf(x,v(1)+1,v(2)+1).*local_cdf_stack(x,UL) ...
 	);
 
-p = integral(@(x)fun(x,[UL(ch,1) UL(ch,2)],UL(nc,:)),0,1);
+if isempty(nc)
+	p = 1;
+else
+	p = integral(@(x)fun(x,[UL(ch,1) UL(ch,2)],UL(nc,:)),0,1);
+end
 
 p = (1-noise).*p + noise.*(1./length(all));
 
